@@ -285,7 +285,7 @@ function render(){
     <div class="section-header"><span class="section-title">🏆 Top 30 품목 — ${lbl}</span><span class="section-hint">2026 매출 기준</span></div>
     <div class="tbl-wrap"><table class="tbl">
       <thead><tr>
-        <th class="r">#</th><th>품목명</th><th>카테고리</th>
+        <th class="r">#</th><th>PLU</th><th>품목명</th><th>카테고리</th>
         <th class="r">2026 매출</th><th class="r">2025 매출</th>
         <th class="r">증감</th><th class="r">YoY%</th>
       </tr></thead><tbody>`;
@@ -296,6 +296,7 @@ function render(){
     const eng = item.eng&&item.eng!=='nan'?item.eng:'';
     h += `<tr>
       <td class="td-mono">${i+1}</td>
+      <td class="td-mono" style="color:#475569;font-weight:600;background:#f8fafc">${item.code}</td>
       <td><div class="name-kr">${kr}</div>${eng?`<div class="name-eng">${eng}</div>`:''}</td>
       <td><span class="cat-pill" ${catPillStyle(item.cat)}>${item.cat}</span></td>
       <td class="td-mono">${fA(item.amt26)}</td>
