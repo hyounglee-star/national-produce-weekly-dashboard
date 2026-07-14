@@ -473,7 +473,7 @@ function renderCategory(d){
 
   const allCats=[...(dCat||[])].filter(c=>c.amt26>0).map(c=>c.cat);
 
-  // W25 카테고리별 YoY 바 차트 — 한눈에 순위 비교, hover 시 상세 수치
+  // W28 카테고리별 YoY 바 차트 — 한눈에 순위 비교, hover 시 상세 수치
   const barCats=[...(dCat||[])].filter(c=>c.amt26>0).sort((a,b)=>(b.yoy||0)-(a.yoy||0));
   const maxAbsYoy=Math.max(1,...barCats.map(c=>Math.abs(c.yoy||0)));
   const barChart=`<div class="card" style="margin-bottom:14px"><div class="card-hd">
