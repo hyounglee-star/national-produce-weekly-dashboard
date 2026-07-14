@@ -307,7 +307,7 @@ function renderMacro(d){
 
   // KPI
   let h=`<div class="kpi-row">
-    <div class="kpi"><div class="kpi-lbl">W25 매출 (2026)</div>
+    <div class="kpi"><div class="kpi-lbl">${NW} 매출 (2026)</div>
       <div class="kpi-val">${fA(d.total26)}</div>
       <div class="kpi-d ${yD}">${fC(d.total26-d.total25)} (${fP(d.yoy)})</div>
       <div class="kpi-s">vs 2025: ${fA(d.total25)}</div></div>
@@ -346,7 +346,7 @@ function renderMacro(d){
   h+=`</div></div>`;
 
   // 매장 성과 테이블
-  h+=`<div class="card"><div class="card-hd"><span class="card-title">🏪 매장별 성과</span><span class="card-hint">W25 YoY</span></div>
+  h+=`<div class="card"><div class="card-hd"><span class="card-title">🏪 매장별 성과</span><span class="card-hint">${NW} YoY</span></div>
   <div class="tbl-scroll" style="max-height:360px"><table class="tbl"><thead><tr>
     <th>#</th><th>매장</th><th>ST</th><th class="r">2026</th><th class="r">2025</th><th class="c">YoY</th><th class="c">⚠️</th>
   </tr></thead><tbody>`;
@@ -397,7 +397,7 @@ function renderMacro(d){
   if(curR==='전국'){
     h+=`<div class="g2">`;
     // 지역 비교
-    h+=`<div class="card"><div class="card-hd"><span class="card-title">🗺️ 지역별 W25 비교</span><span class="card-hint">3주 추세 포함</span></div>
+    h+=`<div class="card"><div class="card-hd"><span class="card-title">🗺️ 지역별 ${NW} 비교</span><span class="card-hint">3주 추세 포함</span></div>
     <div class="tbl-scroll"><table class="tbl"><thead><tr>
       <th>#</th><th>지역</th><th class="r">W27 2026</th><th class="r">W27 2025</th>
       <th class="c">YoY</th><th class="c">W27</th><th class="c">W26</th><th class="c">추세</th>
@@ -421,7 +421,7 @@ function renderMacro(d){
     const zones={};
     REGIONS.forEach(r=>{const z=ZONES[r]||'기타',rd=M.regions[r];if(!zones[z])zones[z]={a26:0,a25:0};if(rd){zones[z].a26+=rd.total26;zones[z].a25+=rd.total25;}});
     h+=`<div class="card"><div class="card-hd"><span class="card-title">🌐 권역별 합산</span></div>
-    <table class="tbl"><thead><tr><th>권역</th><th class="r">2026 W25</th><th class="r">2025 W25</th><th class="c">YoY</th></tr></thead><tbody>`;
+    <table class="tbl"><thead><tr><th>권역</th><th class="r">2026 ${NW}</th><th class="r">2025 ${NW}</th><th class="c">YoY</th></tr></thead><tbody>`;
     Object.entries(zones).sort((a,b)=>b[1].a26-a[1].a26).forEach(([z,v])=>{
       const yoy=v.a25>0?+((v.a26-v.a25)/v.a25*100).toFixed(1):0;
       h+=`<tr><td><strong>${z}</strong></td><td class="mono">${fA(v.a26)}</td><td class="mono" style="color:var(--muted)">${fA(v.a25)}</td><td class="cen">${yB(yoy)}</td></tr>`;
@@ -477,7 +477,7 @@ function renderCategory(d){
   const barCats=[...(dCat||[])].filter(c=>c.amt26>0).sort((a,b)=>(b.yoy||0)-(a.yoy||0));
   const maxAbsYoy=Math.max(1,...barCats.map(c=>Math.abs(c.yoy||0)));
   const barChart=`<div class="card" style="margin-bottom:14px"><div class="card-hd">
-    <span class="card-title">📊 W25 카테고리별 YoY — ${titleLbl}</span>
+    <span class="card-title">📊 ${NW} 카테고리별 YoY — ${titleLbl}</span>
     <span class="card-hint">막대에 마우스를 올리면 $금액·YoY% 표시 · YoY% 내림차순</span></div>
     <div style="padding:14px 16px">
       ${barCats.map(c=>{
@@ -519,10 +519,10 @@ function renderCategory(d){
 
   // 카테고리 상세 테이블 (W25 집중)
   h+=`<div class="card"><div class="card-hd">
-    <span class="card-title">📋 카테고리 상세 (W25) — ${titleLbl}</span><span class="card-hint">비중 변화 포함</span></div>
+    <span class="card-title">📋 카테고리 상세 (${NW}) — ${titleLbl}</span><span class="card-hint">비중 변화 포함</span></div>
     <div class="tbl-scroll" style="max-height:420px"><table class="tbl"><thead><tr>
       <th>#</th><th>카테고리</th>
-      <th class="r">2026 W25</th><th class="r">2025 W25</th><th class="r">증감</th>
+      <th class="r">2026 ${NW}</th><th class="r">2025 ${NW}</th><th class="r">증감</th>
       <th class="c">YoY</th><th class="c">26 비중</th><th class="c">25 비중</th><th class="c">비중 Δ</th>
     </tr></thead><tbody>`;
   (dCat||[]).filter(c=>c.amt26>0).forEach((c,i)=>{
@@ -555,7 +555,7 @@ function buildAlertCard(br,info){
   return`<div class="ac ${info.severity}" style="margin:0">
     <div class="ac-hd"><div>
       <div class="ac-name">${br} <span style="font-size:11px;color:var(--muted);font-weight:400">(${info.region}/${info.st})</span></div>
-      <div class="ac-sub">${ZONES[info.region]||''} · W25: ${fA(info.week_26?.W25||0)}</div>
+      <div class="ac-sub">${ZONES[info.region]||''} · ${NW}: ${fA(info.week_26?.[NW]||0)}</div>
     </div><span class="ac-sev ${info.severity}">${info.severity.toUpperCase()}</span></div>
     <div class="ac-sigs">${sigs}</div>
     <div class="ac-weeks">${wks}</div>
@@ -709,7 +709,7 @@ function renderPLU(){
   // 소멸 PLU
   h+=`<div class="card"><div class="card-hd">
     <span class="card-title">📤 소멸 PLU Top 20</span>
-    <span class="card-hint">2025 있었으나 2026 W25 없음</span></div>
+    <span class="card-hint">2025 있었으나 2026 ${NW} 없음</span></div>
     <div class="tbl-scroll" style="max-height:380px"><table class="tbl"><thead><tr>
       <th>PLU</th><th>품목명</th><th>카테고리</th><th class="r">2025 매출</th><th class="c">매장수</th>
     </tr></thead><tbody>`;
@@ -726,7 +726,7 @@ function renderPLU(){
   // 신규 PLU
   h+=`<div class="card"><div class="card-hd">
     <span class="card-title">📥 신규 PLU Top 20</span>
-    <span class="card-hint">2026 W25 새로 등장</span></div>
+    <span class="card-hint">2026 ${NW} 새로 등장</span></div>
     <div class="tbl-scroll" style="max-height:380px"><table class="tbl"><thead><tr>
       <th>PLU</th><th>품목명</th><th>카테고리</th><th class="r">2026 매출</th><th class="c">매장수</th>
     </tr></thead><tbody>`;
@@ -851,7 +851,7 @@ function renderGP(d){
   h+=`<div class="kpi-row">
     <div class="kpi"><div class="kpi-lbl">${NW} GP%${w26.verified?' <span style="color:#15803d;font-size:11px">✅실측</span>':''}</div>
       <div class="kpi-val" style="color:#7c3aed">${w26.gp_pct??'-'}%</div>
-      <div class="kpi-d ${gpDir}">전주(W25) ${w25.gp_pct??'-'}% 대비 ${gpDir==='up'?'+':''}${w26.gp_pct!==null&&w25.gp_pct!==null?(w26.gp_pct-w25.gp_pct).toFixed(1):'-'}pp</div></div>
+      <div class="kpi-d ${gpDir}">전주(${GP.weeks4[2]}) ${w25.gp_pct??'-'}% 대비 ${gpDir==='up'?'+':''}${w26.gp_pct!==null&&w25.gp_pct!==null?(w26.gp_pct-w25.gp_pct).toFixed(1):'-'}pp</div></div>
     <div class="kpi"><div class="kpi-lbl">${NW} GP$</div>
       <div class="kpi-val">${fA(w26.gp||0)}</div>
       <div class="kpi-s">매출 ${fA(w26.sales||0)} − 매입 ${fA(w26.purchase||0)}</div></div>
